@@ -6,13 +6,13 @@ D=False
 with open(sys.argv[1]) as f:
     s=f.readline().strip().split()
     dim=s[0]
-    label_bound=[]
+    label=[]
     nlabel=len(s)-1
     if nlabel!=3:
         print "error:this is a boring triclassifer, only allow 3 classes"
         quit()
     for i in s[1:]:
-        label_bound.append(float(i))
+        label.append(float(i))
     data=[]
     for line in f.readlines():
         data.append([float(i) for i in line.split()])
@@ -21,7 +21,7 @@ with open(sys.argv[1]) as f:
 data=np.array(data)
 centroids=[]
 begin=0
-for i in label_bound:
+for i in label:
     centroids.append(np.mean(data[begin:begin+i-1],0))
     begin+=i
 if D:
@@ -50,7 +50,7 @@ def segment(dataset,w=None,b=None):
     return prediction
 
 p,w,b=segment(data)
-def eval(predict,verbose=True):
+def eval(predict,label_bound,verbose=True):
     classes=dict()
     #A vs B
     classes[0]= predict[0,1]
@@ -93,7 +93,7 @@ def eval(predict,verbose=True):
             print i,'=',sum(rate[i])/3.0
     return rate
     
-rate=eval(p,False)
+rate=eval(p,label,False)
 if D:
     print rate
 # testing
@@ -109,6 +109,6 @@ with open(sys.argv[2]) as f:
 tdata=np.array(tdata)
 ty=dict()
 tp=segment(tdata,w,b)
-trate=eval(tp)
+trate=eval(tp,tlabel)
 if D:
     print trate
