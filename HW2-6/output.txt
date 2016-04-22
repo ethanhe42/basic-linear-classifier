@@ -1,0 +1,21 @@
+$ python triclassify.py training.txt testing.txt
+True positive rate = 0.0866666666667
+False positive rate = 0.0816666666667
+Accuracy = 0.641111111111
+Error rate = 0.358888888889
+Precision = 0.333333333333
+
+$ python triclassify.py training2.txt testing2.txt
+True positive rate = 0.072
+False positive rate = 0.064
+Accuracy = 0.648
+Error rate = 0.352
+Precision = 0.333333333333
+
+$ python triclassify.py training3.txt testing3.txt
+True positive rate = 0.142666666667
+False positive rate = 0.128666666667
+Accuracy = 0.628444444444
+Error rate = 0.371555555556
+Precision = 0.357638888889
+

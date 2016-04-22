@@ -1,0 +1,250 @@
+\documentclass[journal, a4paper, 12pt]{IEEEtran}
+\usepackage{graphicx}  
+\usepackage{url}        
+\usepackage{amsmath}   
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{epstopdf}
+\usepackage{enumitem}
+\lstset{ %
+  backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}
+  basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+  breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+  breaklines=false,                 % sets automatic line breaking
+  captionpos=b,                    % sets the caption-position to bottom
+  deletekeywords={...},            % if you want to delete keywords from the given language
+  escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+  extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+  frame=l,	                   % adds a frame around the code
+  keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+  keywordstyle=\color{blue},       % keyword style
+  language=Python,                 % the language of the code
+  otherkeywords={*,...},           % if you want to add more keywords to the set
+  %numbers=left,                    % where to put the line-numbers; possible values are (none, left, right)
+  %numbersep=5pt,                   % how far the line-numbers are from the code
+  showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+  showstringspaces=false,          % underline spaces within strings only
+  showtabs=false,                  % show tabs within strings adding particular underscores
+  stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+  tabsize=2,	                   % sets default tabsize to 2 spaces
+  %title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+  xleftmargin=-0.5cm,
+  frame=tlbr,
+  framesep=0pt,
+  framerule=0pt
+  }
+\title{Homework 2}
+\author{Yihui He}
+
+\begin{document}
+\maketitle
+\section{problem 1}
+  \begin{enumerate}[label=(\alph*)]
+  \item $1+8=9$, $x_{13}, x_{15}$
+  \item $\frac{1+8}{20(20-12)}=0.05625$
+  \item $1-Err Rate= 0.94375$
+  \item Shown in figure \ref{1}
+  \end{enumerate}
+  \begin{figure}[h]
+    \begin{center}
+      \includegraphics[width=\columnwidth]{./1.eps}
+      \caption{problem 1(d)}
+      % 1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb=90 252 522 540
+      \label{1}
+    \end{center}
+  \end{figure}
+\section{problem 2}
+  \begin{enumerate}[label=(\alph*)]
+  \item Shown in figure ~\ref{fig:converge}
+  \begin{figure}[h]
+    \begin{center}
+      \includegraphics[width=\columnwidth]{./2.eps}
+      \caption{problem 2(a)}
+      \label{fig:converge}
+      % 1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb=90 252 522 540
+    \end{center}
+  \end{figure}
+  
+  \item Shown in figure ~\ref{fig:roc}
+  \begin{figure}[h]
+    \begin{center}
+      \includegraphics[width=\columnwidth]{./22.eps}
+      \caption{problem 2(b)}
+      \label{fig:roc}
+      % 1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb=90 252 522 540
+    \end{center}
+    
+  \end{figure}  
+  
+  \item $C_0$ have the lowest accuracy. $C_2, C_3$ both have the highest accuracy.
+  \begin{align}
+  accuracy=\frac{TP+N-FP}{N+P}
+  \end{align}
+  All accuracy shown below:
+  \begin{center}
+\begin{tabular}{cc}
+c0 & 0.4\\
+c1 & 0.56\\
+c2 & 0.8\\
+c3 & 0.8\\
+c4 & 0.76\\
+c5 & 0.6
+  \end{tabular}
+  \end{center}
+
+  \item $C_2$ have the highest average recall, $C_0,C_5$have the lowest average recall
+  \begin{align}
+  avg-rec = (tpr + tnr)/2 
+  \end{align}
+  All avg-rec shown below:
+  \begin{center}
+\begin{tabular}{cc}
+c0 & 0.5\\
+c1 & 0.63\\
+c2 & 0.82\\
+c3 & 0.78\\
+c4 & 0.7\\
+c5 & 0.5
+  \end{tabular}
+  \end{center}
+  
+  \item $C_5$ and $C_4$ are complete. A complete classifier has all positive examples in positive prediction.
+  
+  \item $C_0$ and $C_1$ are consistent. A consistent classifier has no negative example in positive prediction. 
+  
+  \end{enumerate}
+\section{problem 3}
+Note that, margin caculation is below(no ||w|| normlization is common pitfall). Fomulas of loss are from textbook.
+\begin{align}
+margin=c(X)\frac{W\cdot X-t}{\lVert W\rVert}
+\end{align}
+Code is as follow:
+\begin{lstlisting}
+w=np.array([2,1,3])
+t=12
+inp=np.array(
+[[2, 2, 3 ],[3, 3, 2 ],[1, 2, 3 ],[1, 4, 1 ],
+[4, 4, 4 ],[2, 2, 2 ],[1, 1, 1 ],[0, 4, 2 ],
+[4, 0, 0 ],[3, 3, 1 ],[3, 3, 3 ]])
+label=np.array(
+[1 if i <6 else -1 for i in range(len(inp))])
+margin=label*(inp.dot(w.T)-t)/np.linalg.norm(w)
+(margin<0).astype(int)#0-1
+(np.maximum(1-margin,0)#hinge
+(1-margin)**2#square
+\end{lstlisting} 
+   \begin{center}
+$\begin{array}{lllll}
+× & margin & 0-1 & hinge & square\\
+0 & 0.801784 & 0.0 & 0.198216 & 0.039290\\
+1 & 0.801784 & 0.0 & 0.198216 & 0.039290\\
+2 & 0.267261 & 0.0 & 0.732739 & 0.536906\\
+3 & -0.801784 & 1.0 & 1.801784 & 3.246425\\
+4 & 3.207135 & 0.0 & 0.000000 & 4.871444\\
+5 & 0.000000 & 0.0 & 1.000000 & 1.000000\\
+6 & 1.603567 & 0.0 & 0.000000 & 0.364294\\
+7 & 0.534522 & 0.0 & 0.465478 & 0.216669\\
+8 & 1.069045 & 0.0 & 0.000000 & 0.004767\\
+9 & 0.000000 & 0.0 & 1.000000 & 1.000000\\
+10 & -1.603567 & 1.0 & 2.603567 & 6.778563
+  \end{array}
+$  \end{center}
+\section{problem 4}
+\begin{center}
+$\begin{array}{lllll}
+× & relative & laplace & 1-estimate & 1-estimate\\
+1 & 0.08 & 0.100000 & 0.100000 & 0.133333\\
+2 & 0.16 & 0.166667 & 0.166667 & 0.177778\\
+3 & 0.32 & 0.300000 & 0.300000 & 0.266667\\
+4 & 0.00 & 0.033333 & 0.033333 & 0.088889\\
+5 & 0.44 & 0.400000 & 0.400000 & 0.333333
+\end{array}
+$\end{center}
+My code of computing probability and generating figures is as follow:
+\begin{lstlisting}
+inp=pd.Series(
+[3,5,5,2,3,1,5,3,5,5,2,
+3,5,5,1,2,3,3,5,3,3,5,5,2,5])
+result=[]
+relative=inp.value_counts(
+  normalize=True,sort=False)
+  .reindex(range(1,6),fill_value=0)
+result.append(relative)
+nominator=
+  (inp.value_counts()
+  .reindex(range(1,6),fill_value=0)+1)
+laplace=nominator/sum(nominator)
+result.append(laplace)
+result.append(laplace)
+nominator=(
+inp.value_counts().
+  reindex(range(1,6),fill_value=0)+4)
+m_est=nominator/sum(nominator)
+result.append(m_est)
+result=pd.DataFrame(
+result,index=
+  ['relative','laplace','1-est','5-est']).T
+for i in result:
+    result[i].plot()
+    plt.xticks(range(1,6))
+    plt.title(i)
+    plt.grid(True)
+    plt.savefig(i+'.eps')
+    plt.show()
+\end{lstlisting}
+\begin{figure}[h]
+    \begin{center}
+      \includegraphics[width=\columnwidth]{./relative.eps}
+      \caption{problem 4(a)}
+      \label{fig:converge}
+      % 1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb=90 252 522 540
+    \end{center}
+  \end{figure}
+\begin{figure}[h]
+    \begin{center}
+      \includegraphics[width=\columnwidth]{./laplace.eps}
+      \caption{problem 4(b)}
+      \label{fig:converge}
+      % 1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb=90 252 522 540
+    \end{center}
+  \end{figure}
+\begin{figure}[h]
+    \begin{center}
+      \includegraphics[width=\columnwidth]{./1-est.eps}
+      \caption{problem 4(c)}
+      \label{fig:converge}
+      % 1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb=90 252 522 540
+    \end{center}
+  \end{figure}
+  \begin{figure}[h]
+    \begin{center}
+      \includegraphics[width=\columnwidth]{./5-est.eps}
+      \caption{problem 4(d)}
+      \label{fig:converge}
+      % 1.eps: 0x0 pixel, 300dpi, 0.00x0.00 cm, bb=90 252 522 540
+    \end{center}
+  \end{figure}
+  From figures, we can see that increasing the number of pseudocounts makes the connected line softer.
+  In general, it decrease the standard deviation of the pdf, that is make lower probability higher, higher probability lower.
+  It also shows that with small dataset like this one, higher $m$ maybe better an more general.
+\section{problem 5}
+  We have Cartesian product of all features
+  \begin{align}
+  4\times2\times 3 \times 4
+  \end{align}
+\begin{enumerate}[label=(\alph*)]
+  \item \begin{align}
+  2^{4*2*3*4}=2^{96}
+  \end{align}
+  \item \begin{align}
+  5\times3\times 4 \times 5=300
+  \end{align}
+  \item 
+  \begin{align}
+  (4^2-1)*(2^2-1)*(3^2-1)*(4^2-1)=5400
+  \end{align}
+\section{problem 6}
+
+  
+\end{enumerate}
+\end{document}
