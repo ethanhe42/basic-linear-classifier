@@ -50,7 +50,7 @@ def segment(dataset,w=None,b=None):
     return prediction
 
 p,w,b=segment(data)
-def eval(predict,label_bound,verbose=True):
+def eval(predict,label_bound,n,verbose=True):
     classes=dict()
     #A vs B
     classes[0]= predict[0,1]
@@ -75,7 +75,9 @@ def eval(predict,label_bound,verbose=True):
     for pos,i in zip(label_bound,range(nlabel)):
         positions=np.argwhere(classes[i])
         high=low+pos
-        neg=ndata-pos
+        neg=n-pos
+        if D:
+            print neg
         TP=sum((positions>=low) & (positions<high))
         FN=pos-TP
         FP=sum((positions<low)|(positions >=high))
@@ -84,7 +86,7 @@ def eval(predict,label_bound,verbose=True):
         #rate['FNR',i]=1-rate['True positive rate',i]
         rate['False positive rate'].append(float(FP)/neg)
         #rate['TNR',i]=1-rate['FPR',i]
-        rate['Accuracy'].append(float(TP+TN)/ndata)
+        rate['Accuracy'].append(float(TP+TN)/n)
         rate['Error rate'].append(1-rate['Accuracy'][i])
         rate['Precision'].append(float(float(TP)/(TP+FP)))
         low=high
@@ -93,7 +95,7 @@ def eval(predict,label_bound,verbose=True):
             print i,'=',sum(rate[i])/3.0
     return rate
     
-rate=eval(p,label,False)
+rate=eval(p,label,ndata,False)
 if D:
     print rate
 # testing
@@ -107,8 +109,9 @@ with open(sys.argv[2]) as f:
     for line in f.readlines():
         tdata.append([float(i) for i in line.split()])
 tdata=np.array(tdata)
+ntdata=len(tdata)
 ty=dict()
 tp=segment(tdata,w,b)
-trate=eval(tp,tlabel)
+trate=eval(tp,tlabel,ntdata)
 if D:
     print trate
